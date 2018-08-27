@@ -7,9 +7,9 @@ micronaut:
 #    server:
 #        port: 8080
 
----
-grails.mongodb.databaseName: micronaut
+grails:
+    mongodb:
+        databaseName: micronaut
 
----
 mongodb:
     uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}
