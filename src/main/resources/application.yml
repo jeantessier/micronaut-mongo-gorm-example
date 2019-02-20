@@ -3,6 +3,10 @@ micronaut:
     application:
         name: mongo-test
 
+jackson:
+    serialization:
+        writeDatesAsTimestamps: false
+
 #Uncomment to set server port
 #    server:
 #        port: 8080
