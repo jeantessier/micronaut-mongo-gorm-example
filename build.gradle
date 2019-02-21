@@ -1,22 +1,14 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
-    }
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "com.github.johnrengelman.shadow" version "4.0.2"
+    id "application"
+    id "groovy"
 }
+
+
 
 version "0.1"
 group "mongo.test"
-
-apply plugin:"io.spring.dependency-management"
-apply plugin:"com.github.johnrengelman.shadow"
-apply plugin:"application"
-apply plugin:"groovy"
-
 
 repositories {
     mavenLocal()
@@ -26,29 +18,41 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'io.micronaut:bom:1.0.0.M4'
+        mavenBom 'io.micronaut:micronaut-bom:1.1.0.M1'
     }
 }
 
+configurations {
+	// for dependencies that are needed for development only
+	developmentOnly 
+}
+
 dependencies {
-    compile "io.micronaut.configuration:mongo-gorm"
-    compile "io.micronaut:http-client"
-    compile "io.micronaut:http-server-netty"
-    compile "io.micronaut:runtime-groovy"
-    compile "io.micronaut.configuration:mongo-reactive"
-    compileOnly "io.micronaut:inject-groovy"
+    compile "io.micronaut:micronaut-runtime-groovy"
+    compile "io.micronaut:micronaut-validation"
+    compile "io.micronaut.configuration:micronaut-mongo-reactive"
+    compile "io.micronaut.configuration:micronaut-mongo-gorm"
+    compile "io.micronaut:micronaut-http-client"
+    compile "io.micronaut:micronaut-http-server-netty"
+    compileOnly "io.micronaut:micronaut-inject-groovy"
     runtime "ch.qos.logback:logback-classic:1.2.3"
-    testCompile "io.micronaut:inject-groovy"
-    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1"
-    testCompile("org.spockframework:spock-core:1.1-groovy-2.4") {
+    testCompile("org.spockframework:spock-core") {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
+    testCompile "io.micronaut:micronaut-inject-groovy"
+    testCompile "io.micronaut.test:micronaut-test-spock:1.0.1"
+    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1"
 }
 
 shadowJar {
     mergeServiceFiles()
 }
 
+run.classpath += configurations.developmentOnly
+test.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
 
 mainClassName = "mongo.test.Application"
+tasks.withType(GroovyCompile) {
+    groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
+}

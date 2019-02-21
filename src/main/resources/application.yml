@@ -4,12 +4,9 @@ micronaut:
         name: mongo-test
 
 jackson:
+    module-scan: false
     serialization:
         writeDatesAsTimestamps: false
-
-#Uncomment to set server port
-#    server:
-#        port: 8080
 
 grails:
     mongodb:
