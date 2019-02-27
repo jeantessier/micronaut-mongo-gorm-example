@@ -18,13 +18,13 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'io.micronaut:micronaut-bom:1.1.0.M1'
+        mavenBom 'io.micronaut:micronaut-bom:1.1.0.M2'
     }
 }
 
 configurations {
-	// for dependencies that are needed for development only
-	developmentOnly 
+    // for dependencies that are needed for development only
+    developmentOnly
 }
 
 dependencies {
