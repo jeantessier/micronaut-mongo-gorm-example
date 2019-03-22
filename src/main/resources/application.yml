@@ -4,7 +4,6 @@ micronaut:
         name: mongo-test
 
 jackson:
-    module-scan: false
     serialization:
         writeDatesAsTimestamps: false
 
