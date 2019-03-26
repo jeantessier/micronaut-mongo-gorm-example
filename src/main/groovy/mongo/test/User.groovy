@@ -12,6 +12,9 @@ class User {
     String password
     String fullname
 
+    Date dateCreated
+    Date lastUpdated
+
     static constraints = {
         emailAddress email: true
         password nullable: true
