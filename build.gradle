@@ -1,8 +1,8 @@
 plugins {
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "groovy"
     id "com.github.johnrengelman.shadow" version "4.0.2"
     id "application"
-    id "groovy"
 }
 
 
@@ -11,14 +11,13 @@ version "0.1"
 group "mongo.test"
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
 }
 
 dependencyManagement {
     imports {
-        mavenBom 'io.micronaut:micronaut-bom:1.1.0.RC2'
+        mavenBom 'io.micronaut:micronaut-bom:1.1.0'
     }
 }
 
@@ -44,15 +43,16 @@ dependencies {
     testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1"
 }
 
-shadowJar {
-    mergeServiceFiles()
-}
-
-run.classpath += configurations.developmentOnly
 test.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 
 mainClassName = "mongo.test.Application"
 tasks.withType(GroovyCompile) {
     groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
 }
+
+shadowJar {
+    mergeServiceFiles()
+}
+
+run.classpath += configurations.developmentOnly
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
