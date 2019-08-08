@@ -20,12 +20,9 @@ configurations {
 }
 
 dependencies {
-    implementation enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion")
-    compileOnly enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion")
-    annotationProcessor enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion")
-    testAnnotationProcessor enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion")
-
+    compileOnly platform("io.micronaut:micronaut-bom:$micronautVersion")
     compileOnly "io.micronaut:micronaut-inject-groovy"
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut.configuration:micronaut-mongo-reactive"
     implementation "io.micronaut:micronaut-runtime-groovy"
     implementation "io.micronaut:micronaut-validation"
@@ -33,6 +30,7 @@ dependencies {
     implementation "io.micronaut.configuration:micronaut-mongo-gorm"
     implementation "io.micronaut:micronaut-http-server-netty"
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+    testCompileOnly platform("io.micronaut:micronaut-bom:$micronautVersion")
     testImplementation("org.spockframework:spock-core") {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
