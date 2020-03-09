@@ -39,7 +39,6 @@ dependencies {
     testImplementation "io.micronaut.test:micronaut-test-spock"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
     testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1"
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.5.0"
 }
 
 test.classpath += configurations.developmentOnly
@@ -53,5 +52,7 @@ shadowJar {
     mergeServiceFiles()
 }
 
-run.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+tasks.withType(JavaExec) {
+    classpath += configurations.developmentOnly
+    jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+}
