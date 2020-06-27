@@ -1,26 +1,21 @@
 package mongo.test
 
 import io.micronaut.http.annotation.*
-import io.micronaut.spring.tx.annotation.*
-import java.text.*
 
 @Controller("/users")
 class UserController {
 
     @Get("/")
-    @Transactional(readOnly = true)
     def index() {
         User.list()
     }
 
     @Get("/{id}")
-    @Transactional(readOnly = true)
     def show(id) {
         User.get(id)
     }
 
     @Post("/")
-    @Transactional
     def save(String emailAddress, String password, String fullname) {
         def user = new User(emailAddress: emailAddress, password: password, fullname: fullname)
         if (user.save()) {
@@ -31,7 +26,6 @@ class UserController {
     }
 
     @Patch("/{id}")
-    @Transactional
     def update(id, Optional<String> emailAddress, Optional<String> password, Optional<String> fullname) {
         def user = User.get(id)
         if (emailAddress.present) {
@@ -51,7 +45,6 @@ class UserController {
     }
 
     @Delete("/")
-    @Transactional
     def delete() {
         def numberDeleted = 0
         User.list().each { user ->
@@ -63,7 +56,6 @@ class UserController {
     }
 
     @Delete("/{id}")
-    @Transactional
     def delete(id) {
         def user = User.get(id)
         if (user) {
