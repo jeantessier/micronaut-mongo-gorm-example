@@ -1,21 +1,26 @@
 package mongo.test
 
 import io.micronaut.http.annotation.*
+import io.micronaut.scheduling.TaskExecutors
+import io.micronaut.scheduling.annotation.ExecuteOn
 
 @Controller("/users")
 class UserController {
 
     @Get("/")
+    @ExecuteOn(TaskExecutors.IO)
     def index() {
         User.list()
     }
 
     @Get("/{id}")
+    @ExecuteOn(TaskExecutors.IO)
     def show(id) {
         User.get(id)
     }
 
     @Post("/")
+    @ExecuteOn(TaskExecutors.IO)
     def save(String emailAddress, String password, String fullname) {
         def user = new User(emailAddress: emailAddress, password: password, fullname: fullname)
         if (user.save()) {
@@ -26,6 +31,7 @@ class UserController {
     }
 
     @Patch("/{id}")
+    @ExecuteOn(TaskExecutors.IO)
     def update(id, Optional<String> emailAddress, Optional<String> password, Optional<String> fullname) {
         def user = User.get(id)
         if (emailAddress.present) {
@@ -45,6 +51,7 @@ class UserController {
     }
 
     @Delete("/")
+    @ExecuteOn(TaskExecutors.IO)
     def delete() {
         def numberDeleted = 0
         User.list().each { user ->
@@ -56,6 +63,7 @@ class UserController {
     }
 
     @Delete("/{id}")
+    @ExecuteOn(TaskExecutors.IO)
     def delete(id) {
         def user = User.get(id)
         if (user) {

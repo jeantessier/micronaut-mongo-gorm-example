@@ -2,6 +2,10 @@
 micronaut:
     application:
         name: mongo-test
+    executors:
+        io:
+            type: fixed
+            nThreads: 10
 
 jackson:
     serialization:
