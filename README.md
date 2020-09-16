@@ -36,25 +36,25 @@ be able to print these values correctly.
 > Python that installs itself in your local Python environment.  You can install
 > it with:
 >
-> ```shell script
+> ```bash
 > pip install httpie
 > ```
 >
 > It assumes HTTP and `localhost` by default, so a call can be as simple as:
 >
-> ```shell script
+> ```bash
 > http :3000
 > ```
 
 ## Create a User
 
-```shell script
+```bash
 http :8080/users emailAddress=jean@jeantessier.com password=abcd1234 fullname="Jean Tessier"
 ```
 
 or
 
-```shell script
+```bash
 curl \
     http://localhost:8080/users \
     -X POST \
@@ -83,12 +83,9 @@ will outputs:
 
 ## List All Users
 
-```shell script
+```bash
 http :8080/users
 ```
-
-will output:
-
 ```json
 [
     {
@@ -114,12 +111,9 @@ I had to cheat and use the `mongo` shell to pull the `id` value straight from
 the database.  For some reason, Micronaut is showing an exploded view of the
 `id` instead of the `ObjectId`.
 
-```shell script
+```bash
 http :8080/users/5b835bd422351af19958ac55
 ```
-
-will output:
-
 ```json
 {
     "emailAddress": "jean@jeantessier.com",
@@ -141,13 +135,13 @@ will output:
 
 In this example, we're changing the password.
 
-```shell script
+```bash
 http PATCH :8080/users/5b835bd422351af19958ac55 password=abc123
 ```
 
 or
 
-```shell script
+```bash
 curl \
     http://localhost:8080/users/5b835bd422351af19958ac55 \
     -X PATCH \
@@ -176,24 +170,18 @@ will output:
 
 ## Delete a User
 
-```shell script
+```bash
 http DELETE :8080/users/5b835bd422351af19958ac55
 ```
-
-outputs:
-
 ```
 OK
 ```
 
 ## Delete All Users
 
-```shell script
+```bash
 http DELETE :8080/users
 ```
-
-outputs:
-
 ```
 Deleted 1 record.
 ```
