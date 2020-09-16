@@ -5,6 +5,26 @@ A trivial Micronaut app that uses GORM to talk to a Mongo database.
 Either uncomment the port setting in `application.yml`, or replace `8080` in the
 examples with the actual port the application is running under.
 
+## Entity IDs
+
+If I don't specify the `id` property of the entity class `User`, GORM will use
+an integer sequence, just like any other entity class.
+
+If I want to use UUIDs, I must specify the `id` property explicitly.
+
+If I use `String` as the type of the `id` property, GORM will assign the string
+version of a UUID to it.  It will be able to read and write entities with these
+string values.  Looking inside MongoDB, the `_id` attribute will be a string
+value.  But if I insert a new document in the collection using MongoDB, it will
+receive an `ObjectId` value for its `_id` attribute.  GORM will be able to
+print it correctly, but it will not be able to find the object by the string
+value of that `ObjectId`.
+
+If I use `org.bson.types.ObjectId` as the type of the `id` property, either GORM
+or MongoDB will assign an `ObjectId` value to the `_id` attribute.  GORM will be
+able to find documents by the string value of that `ObjectId`, but it will not
+be able to print these values correctly.
+
 ## To Run
 
     $ ./gradlew run
