@@ -9,7 +9,6 @@ group "mongo.test"
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 micronaut {
